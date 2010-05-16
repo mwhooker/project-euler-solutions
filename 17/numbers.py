@@ -19,11 +19,11 @@ def one_to_99():
 
 if __name__ == "__main__":
     for i in one_to_99():
-        print "%s, " % i,
+        print "%s, " % i
     
     for hundred in ONES:
-        print "%s hundred, " % hundred,
+        print "%s hundred, " % hundred
         for other in one_to_99():
-            print "%s hundred and %s," % (hundred, other),
+            print "%s hundred and %s," % (hundred, other)
 
-    print "one thousand",
+    print "one thousand"
