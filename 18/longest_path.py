@@ -1,53 +1,13 @@
-"""
-
-
-75(95(17,47),64(47,82))
-75 (0,0) 1
-95 (1,0) 2
-64 (1,1) 3
-17 (2,0) 4
-47 (2,1) 5
-82 (2,2) 6
-18 (3,0)
-35 (3,1)
-87 (3,2)
-10 (3,3)
-
-(0,0) (1,0)
-(0,0) (1,1)
-(1,0) (2,0)
-(1,0) (2,1)
-(1,1) (2,1)
-(1,1) (2,2)
-(2,0) (3,0)
-(2,0) (3,1)
-(2,1) (3,1)
-(2,1) (3,2)
-(2,2) (3,2)
-(2,2) (3,3)
-
-75 95
-75 64
-95 17
-95 47
-64 47
-64 82
-
-75
-95 64
-17 47 82
-"""
-
 from uuid import uuid4
-from pprint import pprint
 import networkx as nx
 
-G = nx.DiGraph()
-f = open('triangle')
+# read the file
+f = open('67_triangle.txt')
 graph = list()
 for line in f:
     graph.append(line.split(' '))
 
+# build the node list
 root = None
 nodes = dict()
 lookup = dict()
@@ -59,6 +19,8 @@ for row in xrange(len(graph)):
         if row is 0 and col is 0:
             root = nodes[node_key]
 
+# build the graph
+G = nx.DiGraph()
 terminals = set()
 for i in nodes:
     y,x = i
@@ -68,12 +30,15 @@ for i in nodes:
     G.add_edge(nodes[i], nodes[(y+1,x)], weight=(100-int(graph[y+1][x])))
     G.add_edge(nodes[i], nodes[(y+1, x+1)], weight=(100-int(graph[y+1][x+1])))
 
+# find the shortest paths
 paths = dict()
 for t in terminals:
+    # TODO: change length to N time using lookup dict
     len = nx.shortest_path_length(G, source=root, target=t, weighted=True)
     path =nx.shortest_path(G, source=root, target=t, weighted=True)
     paths[len] = path
 
+# which is the shortest shortest path?
 best = min(paths)
 t = 0
 for i in paths[best]:
