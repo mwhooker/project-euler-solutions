@@ -1,25 +1,24 @@
-from itertools import izip
+"""
+https://en.wikipedia.org/wiki/Lattice_path
+https://en.wikipedia.org/wiki/Combination
 
+"""
+from __future__ import division
+from decimal import Decimal
+from math import factorial
 
-def find_answer(x, y=None):
+def combinations(n, k):
+    """the combination of n things taken k at a time without repetition."""
+    return factorial(n) / Decimal(factorial(k) * factorial(n - k))
+
+def ne_lattice_paths(k):
+    """The number of NE lattice paths from  (0,0)  to  (a,b)  counts the number
+    of combinations of  a  objects out of a set of  a + b  objects.
+
     """
+    return combinations(k + k, k)
 
-    >>> find_answer(2)
-    6
-    >>> find_answer(3)
-    20
-    """
-
-    if not y:
-        y = x
-
-    if y != x:
-        raise Exception("the case where y != x is not supported yet")
-
-    edges = x + 1
-
-    answer = 0
-    for (i,j)  in izip(xrange(1, edges+1), xrange(edges, 0, -1)):
-        answer += i * j 
-
-    return answer
+if __name__ == '__main__':
+    ne_lattice_paths(3)
+    print "2x2 = %s" % ne_lattice_paths(2)
+    print "20x20 = %s" % ne_lattice_paths(20)
